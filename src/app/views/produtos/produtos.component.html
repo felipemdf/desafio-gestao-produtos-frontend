@@ -1,0 +1,72 @@
+<mat-toolbar color="primary" class="toolbar">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="goToPage('produto/cadastro')">
+        <mat-icon class="toolbar-icon">add_circle_outline</mat-icon>
+      </button>
+
+      <span id="toolbar-text">Consulta de Produtos</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container">
+
+  <form id="form-filter" [formGroup]="formControl">
+    <mat-form-field id="field-codigo">
+      <mat-label>Código</mat-label>
+      <input formControlName="codigo" type="number" min="1" matInput placeholder="Código" #input>
+    </mat-form-field>
+    
+    <mat-form-field id="field-descricao">
+      <mat-label>Descrição</mat-label>
+      <input formControlName="descricao" matInput placeholder="Descrição" #input>
+    </mat-form-field>
+
+    <mat-form-field id="field-custo">
+      <mat-label>Custo</mat-label>
+      <input formControlName="custo" type="number" min="1" step="0.50" value="0.00" matInput placeholder="Custo" #input>
+    </mat-form-field>
+
+    <mat-form-field id="field-precoVenda">
+      <mat-label>Preço de Venda</mat-label>
+      <input formControlName="precoVenda" type="number" min="1" matInput placeholder="Preço de Venda" #input>
+    </mat-form-field>
+  </form>
+
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    
+    <ng-container  matColumnDef="codigo">
+      <th mat-header-cell *matHeaderCellDef> Código </th>
+      <td mat-cell *matCellDef="let element"> {{'000000' + element.id.toString() | slice:-6}} </td>
+    </ng-container>
+  
+   
+    <ng-container matColumnDef="descricao">
+      <th mat-header-cell *matHeaderCellDef> Descrição </th>
+      <td mat-cell *matCellDef="let element"> {{element.descricao}} </td>
+    </ng-container>
+  
+   
+    <ng-container matColumnDef="custo">
+      <th mat-header-cell *matHeaderCellDef> Custo (R$) </th>
+      <td mat-cell *matCellDef="let element"> {{element.custo | number : '1.2-2'}}  </td>
+      
+    </ng-container>
+
+    <ng-container matColumnDef="acoes">
+      <th mat-header-cell *matHeaderCellDef> Ações </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator
+  #paginatorPageSize
+  [pageSizeOptions]="[5, 10, 15]"
+  showFirstLastButtons
+></mat-paginator>
+</div>

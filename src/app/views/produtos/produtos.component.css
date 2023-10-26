@@ -1,0 +1,54 @@
+/* .toolbar {
+  background-color: transparent;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+} */
+
+/* .toolbar-icon {
+  color: black;
+} */
+
+
+
+/* TOOLBAR */
+#toolbar-text {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  /* color: black; */
+}
+
+.container {
+  padding: 50px 80px;
+}
+
+
+/* TABLE */
+[class*="mat-column"]:not([class$="acoes"]) {
+  border-right: 1px solid currentColor;
+} 
+
+[class*="mat-column"] {
+  text-align: center;
+}
+
+.mat-mdc-table {
+  border: 1px solid currentColor;
+  box-shadow: none;
+}
+
+/* FORM */
+mat-form-field {
+  width: 12em;
+  padding-right: 2em;
+}
+
+mat-form-field#field-descricao {
+  width: 25em;
+}
+
+#form-filter {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
