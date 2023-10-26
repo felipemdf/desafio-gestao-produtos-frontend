@@ -22,7 +22,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatGridListModule } from '@angular/material/grid-list';
 
+import {
+  NgxMaskDirective,
+  provideNgxMask,
+  provideEnvironmentNgxMask,
+} from 'ngx-mask';
 @NgModule({
   declarations: [AppComponent, ProdutosComponent, CadastroProdutoComponent],
   imports: [
@@ -43,8 +49,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     FormsModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
+    MatGridListModule,
+    NgxMaskDirective,
   ],
-  providers: [],
+  providers: [provideEnvironmentNgxMask()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

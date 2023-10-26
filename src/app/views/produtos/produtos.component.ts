@@ -29,6 +29,8 @@ export class ProdutosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.configForm();
+
     this.produtoService.findAll().subscribe((data: Produto[]) => {
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
@@ -41,14 +43,15 @@ export class ProdutosComponent implements OnInit {
     this.router.navigate([`${pageName}`]);
   }
 
-  loadFilters() {
+  configForm() {
     this.formControl = this.formBuilder.group({
       codigo: '',
       descricao: '',
       custo: '',
       precoVenda: '',
     });
-
+  }
+  loadFilters() {
     this.dataSource.filterPredicate = ((data, filter) => {
       const filtroCodigo = !filter.codigo || data.id == filter.codigo;
 
@@ -56,6 +59,9 @@ export class ProdutosComponent implements OnInit {
         !filter.descricao ||
         data.descricao.toLowerCase().includes(filter.descricao);
 
+      console.log('CUSTO FORM');
+      console.log(filter);
+      
       const filtroCusto = !filter.custo || data.custo == filter.custo;
 
       const filtroPrecoVenda =

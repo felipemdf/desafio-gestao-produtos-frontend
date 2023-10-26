@@ -1,1 +1,44 @@
-<p>cadastro-produto works!</p>
+<mat-toolbar color="primary" class="toolbar">
+    <mat-toolbar-row>
+      <!-- <button mat-raised-button color="primary" type="submit">Log In</button> -->
+      <button mat-icon-button type="submit" form="form-produto">
+        <mat-icon class="toolbar-icon">save</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon class="toolbar-icon">delete</mat-icon>
+      </button>
+
+      <span id="toolbar-text">Cadastro de Produto</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-grid-list cols="3" rowHeight="2:1">
+  <mat-grid-tile colspan="2">
+    <div class="form-container">
+      <form id="form-produto" [formGroup]="formControl" (submit)="submit()">
+      <mat-form-field id="field-codigo">
+        <mat-label>Código</mat-label>
+        <input formControlName="codigo" type="number" min="1" matInput placeholder="Código" #input>
+      </mat-form-field>
+      
+      <mat-form-field id="field-descricao">
+        <mat-label>Descrição</mat-label>
+        <input formControlName="descricao" matInput placeholder="Descrição" #input required>
+        <!-- <mat-error *ngIf="formControl.controls.descricao.touched && formControl.controls.descricao.invalid">
+          <span *ngIf="formControl.controls.descricao.errors.required">Este campo é obrigatório.</span>
+        </mat-error> -->
+      </mat-form-field>
+  
+      <mat-form-field id="field-custo">
+        <mat-label>Custo</mat-label>
+        <input formControlName="custo" type="number" min="1" step="0.50" value="0.00" matInput placeholder="Custo" #input>
+      </mat-form-field>
+    </form>
+    </div>
+
+    
+  </mat-grid-tile>
+
+
+  <mat-grid-tile colspan="1">2</mat-grid-tile>  
+</mat-grid-list>

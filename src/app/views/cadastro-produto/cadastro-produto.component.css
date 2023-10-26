@@ -1,0 +1,25 @@
+/* TOOLBAR */
+#toolbar-text {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.toolbar-icon{
+    padding-right: 0.5em;
+}
+
+.container {
+    padding: 50px 80px;
+}
+
+
+  /* FORM */
+mat-form-field {
+    width: 12em;
+    padding-right: 2em;
+}
+  
+ mat-form-field#field-descricao {
+    width: 25em;
+}
