@@ -1,27 +1,47 @@
-# DesafioGestaoProdutosFrontend
+# Gesafio Gestão Produtos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.7.
+## Pré-requisitos
 
-## Development server
+Antes de começar, certifique-se de que você tenha instalado:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Node.js (v16+ recomendado): [Baixar Node.js](https://nodejs.org/)
+- npm (gerenciador de pacotes do Node.js): Normalmente é instalado automaticamente com o Node.js.
 
-## Code scaffolding
+## Instalação
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Clone este repositório:
 
-## Build
+   ```bash
+   git clone https://github.com/felipemdf/desafio-gestao-produtos-frontend.git
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Navegue até o diretório do projeto:
 
-## Running unit tests
+   ```bash
+   cd desafio-gestao-produtos-frontend
+   ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Instale as dependências do projeto:
 
-## Running end-to-end tests
+   ```bash
+   npm install
+   ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Executando o Projeto
 
-## Further help
+Agora que o projeto está configurado, você pode executá-lo:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+  bash npm run start
+```
+
+A aplicação será iniciada e você verá mensagens no console indicando que ela está em execução. Por padrão, o endereço estará disponível em http://localhost:4200
+
+## Docker
+
+Caso você possua o docker é possível executar o projeto em um container.
+Para isso execute o seguinte comando:
+
+```
+  docker compose up
+```
