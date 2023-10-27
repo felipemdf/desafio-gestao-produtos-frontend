@@ -29,8 +29,16 @@ import {
   provideNgxMask,
   provideEnvironmentNgxMask,
 } from 'ngx-mask';
+import { PrecoLojaDialogComponent } from './shared/dialogs/preco-loja-dialog/preco-loja-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
-  declarations: [AppComponent, ProdutosComponent, CadastroProdutoComponent],
+  declarations: [
+    AppComponent,
+    ProdutosComponent,
+    CadastroProdutoComponent,
+    PrecoLojaDialogComponent,
+  ],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -51,6 +59,8 @@ import {
     MatPaginatorModule,
     MatGridListModule,
     NgxMaskDirective,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   providers: [provideEnvironmentNgxMask()],
   bootstrap: [AppComponent],

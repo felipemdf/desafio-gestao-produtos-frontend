@@ -1,5 +1,5 @@
 export interface ProdutoLoja {
   idLoja: number;
-  precoVenda: number
-  
+  descricao: string
+  precoVenda: number;
 }

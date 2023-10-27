@@ -1,22 +1,15 @@
-/* .toolbar {
-  background-color: transparent;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
-} */
-
-/* .toolbar-icon {
-  color: black;
-} */
-
-
-
 /* TOOLBAR */
-#toolbar-text {
+.toolbar {
   display: flex;
+  margin: 0 auto;
+}
+
+.toolbar div{
   flex: 1;
-  justify-content: center;
-  /* color: black; */
+}
+
+.toolbar div#toolbar-text{
+  text-align: center;
 }
 
 .container {
@@ -26,7 +19,7 @@
 
 /* TABLE */
 [class*="mat-column"]:not([class$="acoes"]) {
-  border-right: 1px solid currentColor;
+  border-right: 1px solid gray;
 } 
 
 [class*="mat-column"] {
@@ -34,7 +27,7 @@
 }
 
 .mat-mdc-table {
-  border: 1px solid currentColor;
+  border: 1px solid gray;
   box-shadow: none;
 }
 

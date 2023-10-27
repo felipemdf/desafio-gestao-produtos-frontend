@@ -45,12 +45,13 @@ export class ProdutosComponent implements OnInit {
 
   configForm() {
     this.formControl = this.formBuilder.group({
-      codigo: '',
-      descricao: '',
-      custo: '',
-      precoVenda: '',
+      codigo: null,
+      descricao: null,
+      custo: null,
+      precoVenda: null,
     });
   }
+
   loadFilters() {
     this.dataSource.filterPredicate = ((data, filter) => {
       const filtroCodigo = !filter.codigo || data.id == filter.codigo;
@@ -59,9 +60,6 @@ export class ProdutosComponent implements OnInit {
         !filter.descricao ||
         data.descricao.toLowerCase().includes(filter.descricao);
 
-      console.log('CUSTO FORM');
-      console.log(filter);
-      
       const filtroCusto = !filter.custo || data.custo == filter.custo;
 
       const filtroPrecoVenda =

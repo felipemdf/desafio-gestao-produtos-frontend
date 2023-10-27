@@ -1,4 +1,4 @@
-import { ProdutoLoja } from './ProdutoLoja.model';
+import { ProdutoLoja } from './produtoLoja.model';
 
 export interface Produto {
   id: number;
