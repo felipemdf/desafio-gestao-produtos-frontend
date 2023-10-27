@@ -6,7 +6,7 @@
           <mat-icon class="toolbar-icon">save</mat-icon>
         </button>
 
-        <button type="button" mat-icon-button>
+        <button type="button" (click)="deleteProduto()" mat-icon-button>
           <mat-icon class="toolbar-icon">delete</mat-icon>
         </button>
       </div>
@@ -81,10 +81,10 @@
       <mat-grid-tile colspan="1" class="grid-item">
         <div class="grid-item">
           <mat-card class="example-card">
-              <img mat-card-image [src]="formControl.get('imagem')?.value  || '/assets/no_image.png'">
+              <img mat-card-image [src]="imagemBase64  || '/assets/no_image.png'">
           <mat-card-actions>
             <button mat-button type="button" color="primary" style="margin-right: 1em;" (click)="fileInput.click()"> UPLOAD</button>
-            <input formControlName="imagem"  hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+            <input  hidden (change)="onFileSelected($event)" #fileInput type="file" id="file" accept="image/*">
             <button mat-button type="button" color="warn" (click)="onRemoveImage()"> REMOVER </button>
           </mat-card-actions>
         </mat-card>

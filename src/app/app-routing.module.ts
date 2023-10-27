@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'produto', pathMatch: 'full' },
   { path: 'produto', component: ProdutosComponent },
   { path: 'produto/cadastro', component: CadastroProdutoComponent },
+  { path: 'produto/cadastro/:id', component: CadastroProdutoComponent },
 ];
 
 @NgModule({

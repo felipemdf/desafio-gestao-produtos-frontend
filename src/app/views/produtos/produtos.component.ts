@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Produto } from 'src/app/models/produto.model';
 import { ProdutoService } from 'src/app/services/produto.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
   selector: 'app-produtos',
@@ -25,7 +26,8 @@ export class ProdutosComponent implements OnInit {
   constructor(
     private router: Router,
     private produtoService: ProdutoService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private snackbar: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -70,12 +72,31 @@ export class ProdutosComponent implements OnInit {
     }) as (data: Produto, filter: any) => boolean;
 
     this.formControl.valueChanges.subscribe((value) => {
+      console.log(value.descricao.trim());
+      
       const filter = {
         ...value,
-        name: value.descricao.trim().toLowerCase(),
+        descricao: (value.descricao ? value.descricao.trim().toLowerCase() : null),
       } as string;
 
       this.dataSource.filter = filter;
     });
+  }
+
+  deleteProduto(id: number) {
+    this.produtoService.delete(id).subscribe(
+      () => {
+        this.ngOnInit();
+        this.snackbar.showSnackbar('Produto removido com sucesso', 5);
+      },
+      (error) => {
+        this.snackbar.showSnackbar(error.error.message[0], 5);
+        console.error(error.error);
+      }
+    );
+  }
+
+  editProduto(id: number) {
+    this.router.navigate(['/produto/cadastro', id]);
   }
 }

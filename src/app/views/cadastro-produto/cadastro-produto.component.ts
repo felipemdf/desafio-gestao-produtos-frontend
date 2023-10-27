@@ -1,26 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-  FormArray,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Produto } from 'src/app/models/produto.model';
 import { ProdutoLoja } from 'src/app/models/produtoLoja.model';
-import { LojaService } from 'src/app/services/loja.service';
 import { ProdutoService } from 'src/app/services/produto.service';
 import { PrecoLojaDialogComponent } from 'src/app/shared/dialogs/preco-loja-dialog/preco-loja-dialog.component';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-
-const DATA: ProdutoLoja[] = [
-  { idLoja: 1, descricao: '1-LOJA 1', precoVenda: 5.5 },
-  { idLoja: 2, descricao: '2-LOJA 2', precoVenda: 8.0 },
-  { idLoja: 3, descricao: '3-LOJA 3', precoVenda: 3.55 },
-];
 
 @Component({
   selector: 'app-cadastro-produto',
@@ -33,9 +20,11 @@ export class CadastroProdutoComponent implements OnInit {
   dataSource = new MatTableDataSource<ProdutoLoja>();
 
   formControl!: FormGroup;
+  imagemBase64!: string | null;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
@@ -45,7 +34,24 @@ export class CadastroProdutoComponent implements OnInit {
   ngOnInit(): void {
     this.configForm();
 
-    this.dataSource.data = this.formControl.get('produtoLojas')?.value || [];
+    this.route.paramMap.subscribe((params) => {
+      const id = +(params.get('id') || '-1');
+
+      if (id != -1) {
+        this.produtoService.findOne(id).subscribe(
+          (data) => {
+            this.fillFormControl(data);
+
+            this.dataSource.data =
+              this.formControl.get('produtoLojas')?.value || [];
+          },
+          (error) => {
+            this.snackbar.showSnackbar(error.error.message[0], 5);
+            console.error(error.error);
+          }
+        );
+      }
+    });
   }
 
   configForm() {
@@ -53,8 +59,30 @@ export class CadastroProdutoComponent implements OnInit {
       id: null,
       descricao: [null, Validators.required],
       custo: [null],
-      imagem: new FormControl(null),
-      produtoLojas: this.formBuilder.array<ProdutoLoja>([]),
+      produtoLojas: this.formBuilder.array<ProdutoLoja>(
+        [],
+        Validators.required
+      ),
+    });
+  }
+
+  fillFormControl(data: Produto) {
+    this.formControl.patchValue({
+      id: data.id,
+      descricao: data.descricao,
+      custo: data.custo,
+    });
+
+    this.imagemBase64 = data.imagem || null;
+
+    data.produtoLojas.forEach((produtoLoja: ProdutoLoja) => {
+      (this.formControl.get('produtoLojas') as FormArray).push(
+        this.formBuilder.group({
+          idLoja: produtoLoja.idLoja,
+          descricao: [produtoLoja.descricao, Validators.required],
+          precoVenda: [produtoLoja.precoVenda, Validators.required],
+        })
+      );
     });
   }
 
@@ -135,8 +163,11 @@ export class CadastroProdutoComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
 
-      reader.onload = (e) => {
-        this.formControl.patchValue({ imagem: e.target?.result });
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        this.imagemBase64 = (e.target?.result as String).replace(
+          'C:\\fakepath\\',
+          ''
+        );
       };
 
       reader.readAsDataURL(file);
@@ -144,7 +175,28 @@ export class CadastroProdutoComponent implements OnInit {
   }
 
   onRemoveImage() {
-    this.formControl.patchValue({ imagem: null });
+    this.imagemBase64 = null;
+  }
+
+  deleteProduto() {
+    const id = this.formControl.get('id')?.value;
+
+    if (!id) {
+      this.snackbar.showSnackbar('Não é possível excluir o produto', 5);
+      return;
+    }
+
+    this.produtoService.delete(id).subscribe(
+      () => {
+        this.snackbar.showSnackbar('Produto removido com sucesso', 5);
+
+        this.router.navigate(['/produto']);
+      },
+      (error) => {
+        this.snackbar.showSnackbar(error.error.message[0], 5);
+        console.error(error.error);
+      }
+    );
   }
 
   submit() {
@@ -156,26 +208,16 @@ export class CadastroProdutoComponent implements OnInit {
       return;
     }
 
-    console.log(this.formControl.value);
-
-    this.produtoService.create(this.formControl.value).subscribe(
-      () => {
-        this.router.navigate(['/produto']);
-      },
-      (error) => {
-        this.snackbar.showSnackbar(error.error.message[0], 5);
-        console.error(error.error)
-      }
-    );
+    this.produtoService
+      .create({ ...this.formControl.value, imagem: this.imagemBase64 })
+      .subscribe(
+        () => {
+          this.router.navigate(['/produto']);
+        },
+        (error) => {
+          this.snackbar.showSnackbar(error.error.message[0], 5);
+          console.error(error.error);
+        }
+      );
   }
-
-  // getImagemURL(): SafeUrl {
-  //   if (this.imagem) {
-  //     const blob = new Blob([this.imagem]);
-  //     const url = URL.createObjectURL(blob);
-
-  //     return url;
-  //   }
-  //   return '';
-  //
 }

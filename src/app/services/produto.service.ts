@@ -13,7 +13,15 @@ export class ProdutoService {
     return this.http.get<Produto[]>(this.apiURL);
   }
 
+  findOne(id: number): Observable<Produto> {
+    return this.http.get<Produto>(this.apiURL + `/${id}`);
+  }
+
   create(data: Produto): Observable<any> {
     return this.http.post<void>(this.apiURL, data);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete<void>(this.apiURL + `/${id}`);
   }
 }
